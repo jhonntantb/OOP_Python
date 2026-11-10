@@ -9,12 +9,26 @@ class Item:
         assert quantity >= 0, f"Quantity {quantity} is not greater than or equal to zero!"
         #Assign to self object
         self.__name = name
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
         #Actions to execute
         Item.all.append(self)
 
+    @property
+    # Property Decorator = Read-Only Attribute
+    def price(self):
+        return self.__price
+
+    def apply_discount(self):
+        self.__price = self.__price * self.pay_rate
+
+    def apply_increment(self, increment_value):
+        self.__price = self.__price + self.price * increment_value
+
+    @property
+    def name(self):
+        return self.__name
     @property
     #Property Decorator = Read-Only Attribute
     def name(self):
@@ -28,10 +42,7 @@ class Item:
             self.__name = value
 
     def calculate_total_price(self):
-        return self.price * self.quantity
-
-    def apply_discount(self):
-        self.price = self.price * self.pay_rate
+        return self.__price * self.quantity
 
     @classmethod
     def instantiate_from_csv(cls):
@@ -59,8 +70,24 @@ class Item:
             return False
 
     def __repr__(self):
-        return f"Item{self.__class__.__name__}('{self.name}', '{self.price}', '{self.quantity}')"
+        return f"Item{self.__class__.__name__}('{self.name}', '{self.__price}', '{self.quantity}')"
 
     @property
     def read_only_name(self):
         return self.name
+
+    def send_email(self):
+        self.__connect("djfjfjfj")
+        self.__prepare_body()
+        self.__send()
+
+    def __connect(self, smpt_server):
+        pass
+    def __prepare_body(self):
+        return f"""
+        Hello someone.
+        We have {self.name} {self.quantity} times.
+        Regards, JimShapedCoding
+        """
+    def __send(self):
+        pass
